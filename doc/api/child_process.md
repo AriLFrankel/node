@@ -27,7 +27,12 @@ ls.on('close', (code) => {
 ```
 
 By default, pipes for `stdin`, `stdout`, and `stderr` are established between
-the parent Node.js process and the spawned child. It is possible to stream data
+the parent Node.js process and the spawned child. *Note that these pipes have
+limited (and platform-specific) capacity, and if a process writes stdout
+in excess of that limit without capturing the output, that can cause the process
+to hang. This is identical behavior to the behavior of pipes in the shell. 
+If you don't plan on consuming the output from the child process, create it
+with { stdio: 'ignore' }.* It is possible to stream data It is possible to stream data
 through these pipes in a non-blocking way. *Note, however, that some programs
 use line-buffered I/O internally. While that does not affect Node.js, it can
 mean that data sent to the child process may not be immediately consumed.*
